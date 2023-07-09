@@ -1,4 +1,4 @@
-import mysql, { OkPacket } from 'mysql2';
+import { OkPacket } from 'mysql2';
 import { ContactInput } from '../models/contact.model';
 import { Contact } from '../models/contact.model';
 import db from '../db/connection'

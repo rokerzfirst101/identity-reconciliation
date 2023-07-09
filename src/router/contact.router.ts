@@ -45,16 +45,16 @@ router.post("/identify", async (req: Request, res: Response) => {
     let primaryContact = null
 
     if (sameContacts.length > 0) {
-        const secondaryContactIds: number[] = []
+        const turnIntoSecondary: number[] = []
 
         primaryContact = primaryContacts[0]
 
         if (primaryContacts.length > 1) {
             primaryContacts.splice(1, primaryContacts.length).forEach(c => {
-                secondaryContactIds.push(c.id)
+                turnIntoSecondary.push(c.id)
             })
 
-            await contactModel.makeSecondary(primaryContacts[0].id, secondaryContactIds)
+            await contactModel.makeSecondary(primaryContacts[0].id, turnIntoSecondary)
         }
     }
 
@@ -78,7 +78,7 @@ router.post("/identify", async (req: Request, res: Response) => {
         emails.push(primaryContact.email)
         phoneNumbers.push(primaryContact.phoneNumber)
     }
-    
+
     sameContacts.forEach(c => {
         if (c.id !== primaryContacts[0].id) {
             pushIfValueNotNullAndNotInArray(emails, c.email)

@@ -68,13 +68,13 @@ router.post("/identify", (req, res) => __awaiter(void 0, void 0, void 0, functio
     const primaryContacts = sameContacts.filter(c => c.linkPrecedence === "primary");
     let primaryContact = null;
     if (sameContacts.length > 0) {
-        const secondaryContactIds = [];
+        const turnIntoSecondary = [];
         primaryContact = primaryContacts[0];
         if (primaryContacts.length > 1) {
             primaryContacts.splice(1, primaryContacts.length).forEach(c => {
-                secondaryContactIds.push(c.id);
+                turnIntoSecondary.push(c.id);
             });
-            yield contactModel.makeSecondary(primaryContacts[0].id, secondaryContactIds);
+            yield contactModel.makeSecondary(primaryContacts[0].id, turnIntoSecondary);
         }
     }
     let createdContact;

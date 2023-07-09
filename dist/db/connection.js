@@ -4,13 +4,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const mysql2_1 = __importDefault(require("mysql2"));
-const connection = mysql2_1.default.createConnection({
-    host: "localhost",
-    port: 2021,
-    user: "root",
-    password: "password",
-    database: "bitespeed_test"
-});
+require("dotenv/config");
+const connectionOptions = {
+    host: process.env.DB_HOST,
+    port: 3306,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME
+};
+const connection = mysql2_1.default.createConnection(connectionOptions);
 connection.connect((err) => {
     if (err)
         throw err;

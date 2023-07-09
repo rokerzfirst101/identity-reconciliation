@@ -1,0 +1,35 @@
+version: '3'
+services:
+  db:
+    image: mysql:latest
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./sql-scripts:/docker-entrypoint-initdb.d
+    ports:
+      - ${DB_PORT}:3306
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/user/src/app
+      - ./wait-for-it.sh:/wait-for-it.sh
+      - node_modules:/user/src/app/node_modules
+    ports:
+      - "${SERVER_PORT}:8080"
+    environment:
+      DB_HOST: db
+      DB_PORT: ${DB_PORT}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: identity_reconciliation
+    command: bash -c "chmod +x ./wait-for-it.sh && ./wait-for-it.sh $$DB_HOST:3306 -- node dist/index.js"
+    depends_on:
+      - db
+volumes:
+  db_data: {}
+  node_modules: {}
