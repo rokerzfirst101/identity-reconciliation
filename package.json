@@ -4,9 +4,8 @@
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "prebuild": "yarn",
-    "build": "tslint -c tslint.json -p tsconfig.json --fix tsc",
-    "prestart": "tsc npm run build",
+    "prebuild": "tslint -c tslint.json -p tsconfig.json --fix",
+    "build": "tsc",
     "start": "node ."
   },
   "keywords": [],
